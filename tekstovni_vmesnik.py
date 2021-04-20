@@ -16,25 +16,14 @@ trading.dodaj_kovanec(ethereum)
 def tekstovni_vmesnik():
     uvodni_pozdrav()
     while True:
-        osnovni_zaslon()
+        pokazi_portfelje()
+        pokazi_skupno_vrednost_portfeljev()
 
 
 def uvodni_pozdrav():
-    print("Pozdravljen v programu kjer lahko spremljaš vrednosti svoji kriptovalut!")
+    print("Pozdravljen v programu kjer lahko spremljaš vrednosti svojih kriptovalut!")
 
-def osnovni_zaslon():
-    print('Kaj bi rad počel?')
-    print('1) Preveril vrednosti portfeljev?')
-    print('2) Pogledal posamezne kovance iz portfelja?')
-    print('3) Odstranil kovanec?')
-    vnos = input('> ')
-    if vnos == '1':  #ne deluje kot bi moral? ne izpiše obeh funkcij naenkrar, vsako posebej pa
-        pokazi_portfelje()
-        pokazi_skupno_vrednost_portfeljev()       
-    elif vnos == '2':
-        pokazi_posamezne_kovance()
-    elif vnos == '3':
-        pass
+
 
 
 
@@ -54,8 +43,21 @@ def pokazi_posamezne_kovance():
 
 
 
-#lahko bi dodal še funkcijo ki prikaže skupno vrednost vseh portfelejv, ki prikaže vse kovance in njihovi vrednosti
+
 
 
 tekstovni_vmesnik()
-        
+
+def osnovni_zaslon(): #ta funkcija je neuporabna
+    print('Kaj bi rad počel?')
+    print('1) Preveril vrednosti portfeljev?')
+    print('2) Pogledal posamezne kovance iz portfelja?')
+    print('3) Odstranil kovanec?')
+    vnos = input('> ')
+    if vnos == '1': 
+        pass
+               
+    elif vnos == '2':
+        pokazi_posamezne_kovance()
+    elif vnos == '3':
+        pass        

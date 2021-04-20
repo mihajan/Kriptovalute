@@ -5,9 +5,25 @@ from yahoofinancials import YahooFinancials
 class Model:
     def __init__(self):
         self.portfelji = []
+        self.aktualni_portfelj = None
 
     def dodaj_portfelj(self, portfelj):
         self.portfelji.append(portfelj)
+        if not self.aktualni_portfelj:
+            aktualni_portfelj = portfelj
+
+    def pobrisi_portfelj(self, portfelj):
+        self.portfelji.remove(portfelj)
+
+    def zamenjaj_portfelj(self, portfelj):
+        self.aktualni_portfelj = portfelj
+
+    def dodaj_kovanec(self, kovanec): #poskrbi da se kovanec doda na aktivni portfelj
+        self.aktualni_portfelj.dodaj_kovanec(kovanec)
+
+    def prodaj_kovanec(self, kovanec): 
+        """Odstrani kovanec iz portfelja. Kot bi npr. nekaj kupil"""
+        self.aktualni_portfelj.pobrisi_portfelj(kovanec)
 
     def vrednost_vseh_portfeljev_modela(self):
         skupaj = 0
@@ -23,10 +39,6 @@ class Portfelj:
     def dodaj_kovanec(self, kovanec):
         self.kovanci.append(kovanec)
 
-    def prodaj_kovanec(self, kovanec): 
-        """Odstrani kovanec iz portfelja. Kot bi npr. nekaj kupil"""
-        self.kovanci.remove(kovanec)
-    
     def stevilo_razlicnih_kovancev(self):
         return len(self.kovanci)
 
@@ -67,7 +79,7 @@ class Kovanec:
 
 
 
-#bitcoin = Kovanec('BTC', 'Bitcoin', '', 1.1)
+#itcoin = Kovanec('BTC', 'Bitcoin', '', 1.1)
 #print(bitcoin.trenutna_cena_enega())
 #print(bitcoin.trenutna_vrednost_dolocenega_kovanca())
 #print(bitcoin)
