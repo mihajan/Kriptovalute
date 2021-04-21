@@ -16,7 +16,9 @@ def prikaz_portfelja(portfelj):
 
 
 def prikaz_kovanca(kovanec):
-    return f'{self.polno_ime} ({self.kratica})- si lastiš {self.kolicina} enot.'
+    return f'{kovanec.polno_ime} ({kovanec.kratica})- si lastiš {kovanec.kolicina} enot.'
+
+
 
 
 def izberi_moznost(moznosti):
@@ -45,16 +47,15 @@ def izberi_aktivni_portfelj(model):
 
 def izberi_kovanec(model):
     '''Funkcija ki pomaga pri izbiri kovanca da ga bom lahko izbrisal'''
-    return izberi_moznost([kovanec, prikaz_kovanca(kovanec) for kovanec in model.aktualni_portfelj.kovanci])
+    return izberi_moznost([(kovanec, prikaz_kovanca(kovanec)) for kovanec in model.aktualni_portfelj.kovanci])
     
-def prikazi_aktualne_kovance():
-    pass
+
 
 def tekstovni_vmesnik():
     uvodni_pozdrav()
     while True:
-        pokazi_portfelje()
-        pokazi_skupno_vrednost_portfeljev()
+        #pokazi_portfelje()
+        #pokazi_skupno_vrednost_portfeljev()
         print("\n Vpiši ustrezno število pred željeno aktivnostjo: ")
         izbran_ukaz = izberi_moznost([
             (DODAJ_PORTFELJ, "ustvari nov portfelj"),
@@ -76,7 +77,7 @@ def tekstovni_vmesnik():
         elif izbran_ukaz == PRODAJ_KOVANEC:
             prodaj_kovanec()
         elif izbran_ukaz == PRIKAZI_POSAMEZNE_KOVANCE:
-            prikazi_posamezne_kovance()
+            pokazi_posamezne_kovance()
         elif izbran_ukaz == IZHOD:
             pozdrav_v_slovo()
             break
@@ -90,11 +91,21 @@ def uvodni_pozdrav():
 def pozdrav_v_slovo():
     print("Lepo se imej, nasviednje!")
 
+def pokazi_portfelje():
+    '''Prikaže imena portfeljev v modelu in njihove vrednosti'''
+    for portfelj in testni_model.portfelji:
+        print(f'-{portfelj.ime.capitalize()}: {round(portfelj.vrednost_portfelja(), 2)}$')
+
+def pokazi_skupno_vrednost_portfeljev():
+    print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
+
 def dodaj_portfelj():
     print("Vnesite zahtevane podatke portfelja.")
     ime = input("ime> ")
     nov_portfelj = Portfelj(ime)
     testni_model.dodaj_portfelj(nov_portfelj)
+    #ko ustvarimo nov portfelj ta postane aktualni
+    testni_model.aktualni_portfelj = nov_portfelj
 
 def pobrisi_portfelj():
     print("Izberi številko pred portfeljem, ki ga želiš izbrisati:")
@@ -117,15 +128,21 @@ def dodaj_kovanec():
 
 def prodaj_kovanec():
     print("Izberite kovanec, ki ga želite odstraniti:")
-    kovanec = izb
+    kovanec = izberi_kovanec(testni_model)
+    testni_model.prodaj_kovanec(kovanec)
 
-def pokazi_portfelje():
-    '''Prikaže imena portfeljev v modelu in njihove vrednosti'''
-    for portfelj in testni_model.portfelji:
-        print(f'-{portfelj.ime.capitalize()}: {round(portfelj.vrednost_portfelja(), 2)}$')
+def pokazi_posamezne_kovance():
+    '''Prikaže kovance na aktualnem portfelju'''
+    if testni_model.aktualni_portfelj:   #če obstaja
+        for kovanec in testni_model.aktualni_portfelj.kovanci:
+            print(f"-{prikaz_kovanca(kovanec)}")
+    else:
+        print("Nimate še nobenega portfelja. Prosim ustvarite ga.")
+        dodaj_portfelj()
 
-def pokazi_skupno_vrednost_portfeljev():
-    print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
+    
+
+
 
 
 
@@ -136,26 +153,5 @@ def pokazi_skupno_vrednost_portfeljev():
 
 tekstovni_vmesnik()
 #----------------------------------------------------------------------------------------
-def osnovni_zaslon(): #ta funkcija je neuporabna
-    print('Kaj bi rad počel?')
-    print('1) Preveril vrednosti portfeljev?')
-    print('2) Pogledal posamezne kovance iz portfelja?')
-    print('3) Odstranil kovanec?')
-    vnos = input('> ')
-    if vnos == '1': 
-        pass
-               
-    elif vnos == '2':
-        pokazi_posamezne_kovance()
-    elif vnos == '3':
-        pass   
 
 
-holding = Portfelj('holding')
-trading = Portfelj('trading')
-testni_model.dodaj_portfelj(holding)
-testni_model.dodaj_portfelj(trading)
-ethereum = Kovanec('ETH', 'Ethereum', '', 17.8)
-bitcoin = Kovanec('BTC', 'Bitcoin', '', 1.1)
-holding.dodaj_kovanec(bitcoin)
-trading.dodaj_kovanec(ethereum)

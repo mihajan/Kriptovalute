@@ -1,4 +1,4 @@
-#uvozim knjižnico ki mi bo pomagala pri pridobivanju podatkov trenutni cen iz interneta
+#uvozim knjižnico ki mi bo pomagala pri pridobivanju podatkov trenutnih cen iz interneta
 from yahoofinancials import YahooFinancials
 
 
@@ -23,7 +23,7 @@ class Model:
 
     def prodaj_kovanec(self, kovanec): 
         """Odstrani kovanec iz portfelja. Kot bi npr. nekaj kupil"""
-        self.aktualni_portfelj.pobrisi_portfelj(kovanec)
+        self.aktualni_portfelj.kovanci.remove(kovanec)
 
     def vrednost_vseh_portfeljev_modela(self):
         skupaj = 0
@@ -48,8 +48,6 @@ class Portfelj:
             vrednost += kovanec.trenutna_vrednost_dolocenega_kovanca()
         return vrednost
     
-    def spisek_kovancev_v_portfelju(self):
-        pass
 
 
 class Kovanec:
@@ -67,37 +65,14 @@ class Kovanec:
         return f'Kovanec({self.kratica}, {self.polno_ime}, {self.posebnost}, {self.kolicina})'
 
 
-
     def trenutna_cena_enega(self):       
         return YahooFinancials(f'{self.kratica}-USD').get_current_price()
 
     def trenutna_vrednost_dolocenega_kovanca(self):
-        return self.kolicina * self.trenutna_cena_enega()
+        return float(self.kolicina) * self.trenutna_cena_enega()
 
 
 
 
 
 
-#itcoin = Kovanec('BTC', 'Bitcoin', '', 1.1)
-#print(bitcoin.trenutna_cena_enega())
-#print(bitcoin.trenutna_vrednost_dolocenega_kovanca())
-#print(bitcoin)
-
-#print(ethereum.trenutna_vrednost_dolocenega_kovanca())
-
-#ethereum = Kovanec('ETH', 'Ethereum', '', 17.8)
-#bitcoin = Kovanec('BTC', 'Bitcoin', '', 1.1)
-#m = Model()
-#m.portfelj.dodaj_kovanec(ethereum)
-#m.portfelj.dodaj_kovanec(bitcoin)
-
-
-#print(m.portfelj.vrednost_portfelja())
-#print(m.portfelj.stevilo_razlicnih_kovancev())
-#print(m.portfelj.kovanci)
-
-#m.portfelj.prodaj_kovanec(ethereum) #ne deluje
-#print(m.portfelj.kovanci)
-
-#print(m.portfelj.kovanci[0].polno_ime)
