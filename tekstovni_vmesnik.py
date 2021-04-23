@@ -8,7 +8,8 @@ ZAMENJAJ_PORTFELJ = 3
 DODAJ_KOVANEC = 4
 PRODAJ_KOVANEC = 5
 PRIKAZI_POSAMEZNE_KOVANCE = 6
-IZHOD = 7
+SKUPNA_VREDNOST_PORTFELJEV = 7
+IZHOD = 8
 
 def prikaz_portfelja(portfelj):
     st_kovancev = portfelj.stevilo_razlicnih_kovancev()
@@ -16,7 +17,7 @@ def prikaz_portfelja(portfelj):
 
 
 def prikaz_kovanca(kovanec):
-    return f'{kovanec.polno_ime} ({kovanec.kratica})- si lastiš {kovanec.kolicina} enot.'
+    return f'{kovanec.polno_ime} ({kovanec.kratica})- imaš {kovanec.kolicina} enot. Posebnost kovanca: {kovanec.posebnost}'
 
 
 
@@ -55,16 +56,16 @@ def tekstovni_vmesnik():
     uvodni_pozdrav()
     while True:
         stevilo_razlicnih_portfeljev()
-        #pokazi_portfelje()
-        #pokazi_skupno_vrednost_portfeljev()
+        pokazi_portfelje() 
         print("\nVpišite številko pred dejavnostjo, ki jo želite narediti.")
         izbran_ukaz = izberi_moznost([
             (DODAJ_PORTFELJ, "ustvari nov portfelj"),
             (POBRISI_PORTFELJ, "pobriši portfelj"),
-            (ZAMENJAJ_PORTFELJ, "prikaži drug portfelj"),
+            (ZAMENJAJ_PORTFELJ, "zamenjaj aktivni portfelj"),
             (DODAJ_KOVANEC, "dodaj kovanec na aktivni portfelj"),
-            (PRODAJ_KOVANEC, "odstrani kovanec iz portfelja"),
-            (PRIKAZI_POSAMEZNE_KOVANCE, "prikaži vse kovance"),
+            (PRODAJ_KOVANEC, "odstrani kovanec iz aktivnega portfelja"),
+            (PRIKAZI_POSAMEZNE_KOVANCE, "prikaži vse kovance na aktivnem portfelju"),
+            (SKUPNA_VREDNOST_PORTFELJEV, "prikaži vrednost vseh mojih portfeljev skupaj"),
             (IZHOD, "zaključi z izvajanjem programa")
         ])
         if izbran_ukaz == DODAJ_PORTFELJ:
@@ -79,6 +80,8 @@ def tekstovni_vmesnik():
             prodaj_kovanec()
         elif izbran_ukaz == PRIKAZI_POSAMEZNE_KOVANCE:
             pokazi_posamezne_kovance()
+        elif izbran_ukaz == SKUPNA_VREDNOST_PORTFELJEV:
+            pokazi_skupno_vrednost_portfeljev()
         elif izbran_ukaz == IZHOD:
             pozdrav_v_slovo()
             break
@@ -87,16 +90,16 @@ def tekstovni_vmesnik():
 
 
 def uvodni_pozdrav():
-    print("Pozdravljen v programu kjer lahko spremljaš trenutne vrednosti svojih kriptovalut!")
+    print("\nPozdravljen v programu kjer lahko spremljaš trenutne vrednosti svojih kriptovalut!")
     print("----------------------------------------------------------------------------------")
 
 def pozdrav_v_slovo():
-    print("Lepo se imej, nasviednje!")
+    print("Lepo se imej, nasvidenje!")
 
 def stevilo_razlicnih_portfeljev():
     if testni_model.stevilo_razlicnih_portfeljev() != 0:
         print(f"\nTreutno imate toliko portfeljev: {testni_model.stevilo_razlicnih_portfeljev()}")
-        print(f"Vaš trenutno aktiven portfelj je: {testni_model.aktualni_portfelj}")
+        print(f"Vaš trenutno aktiven portfelj je: {testni_model.aktualni_portfelj.ime.capitalize()}\n")
     else:    
         print("Ustvarjenega nimate še nobenega portfelja, zato si ga prosim najprej ustvarite.\n")
         dodaj_portfelj()
@@ -105,11 +108,15 @@ def stevilo_razlicnih_portfeljev():
 
 def pokazi_portfelje():
     '''Prikaže imena portfeljev v modelu in njihove vrednosti'''
-    for portfelj in testni_model.portfelji:
-        print(f'-{portfelj.ime.capitalize()}: {round(portfelj.vrednost_portfelja(), 2)}$')
+    print("Vaši portfelji s pripadajočimi vrednostmi so:")
+    try:
+        for portfelj in testni_model.portfelji:
+            print(f'-{portfelj.ime.capitalize()}: {round(portfelj.vrednost_portfelja(), 2)}$')
+    except ValueError:
+        print("Vnesli ste napačne podatke za kovanec. Prosim odstranite ga iz portfelja.")
+        prodaj_kovanec()
 
-def pokazi_skupno_vrednost_portfeljev():
-    print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
+
 
 def dodaj_portfelj():
     print("Vpišite kako želite, da se vaš portfelj imenuje.")
@@ -131,6 +138,7 @@ def zamenjaj_portfelj():
 
 def dodaj_kovanec():
     print("Vnesite podatke za nov kovanec:")
+    print("Če niste prepričani katera je pravilna kratica jo prosim poiščite tu: 'https://finance.yahoo.com/cryptocurrencies?count=100&offset=0'")
     kratica = input("Kratica> ")
     polno_ime = input("Ime> ")
     posebnost = input("Posebnost> ")
@@ -145,11 +153,12 @@ def prodaj_kovanec():
 
 def pokazi_posamezne_kovance():
     '''Prikaže kovance na aktualnem portfelju'''
-    print("IME -- KRATICA -- ŠT ENOT V LASTI")
+    #print("IME -- KRATICA -- ŠT ENOT V LASTI")
     for kovanec in testni_model.aktualni_portfelj.kovanci:
         print(f"-{prikaz_kovanca(kovanec)}")
 
-
+def pokazi_skupno_vrednost_portfeljev():
+    print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
     
 
 

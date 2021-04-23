@@ -68,11 +68,11 @@ class Kovanec:
         return f'Kovanec({self.kratica}, {self.polno_ime}, {self.posebnost}, {self.kolicina})'
 
 
-    def trenutna_cena_enega(self):       
-        return YahooFinancials(f'{self.kratica}-USD').get_current_price()
-
+    def trenutna_cena_enega(self):      
+        return YahooFinancials(f'{self.kratica}-USD').get_current_price()        
+            
     def trenutna_vrednost_dolocenega_kovanca(self):
-        return float(self.kolicina) * self.trenutna_cena_enega()
+            return float(self.kolicina) * self.trenutna_cena_enega()
 
 
 
