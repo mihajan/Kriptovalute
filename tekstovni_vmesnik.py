@@ -54,14 +54,15 @@ def izberi_kovanec(model):
 def tekstovni_vmesnik():
     uvodni_pozdrav()
     while True:
+        stevilo_razlicnih_portfeljev()
         #pokazi_portfelje()
         #pokazi_skupno_vrednost_portfeljev()
-        print("\n Vpiši ustrezno število pred željeno aktivnostjo: ")
+        print("\nVpišite številko pred dejavnostjo, ki jo želite narediti.")
         izbran_ukaz = izberi_moznost([
             (DODAJ_PORTFELJ, "ustvari nov portfelj"),
             (POBRISI_PORTFELJ, "pobriši portfelj"),
             (ZAMENJAJ_PORTFELJ, "prikaži drug portfelj"),
-            (DODAJ_KOVANEC, "dodaj nov kovanec na portfelj"),
+            (DODAJ_KOVANEC, "dodaj kovanec na aktivni portfelj"),
             (PRODAJ_KOVANEC, "odstrani kovanec iz portfelja"),
             (PRIKAZI_POSAMEZNE_KOVANCE, "prikaži vse kovance"),
             (IZHOD, "zaključi z izvajanjem programa")
@@ -86,10 +87,21 @@ def tekstovni_vmesnik():
 
 
 def uvodni_pozdrav():
-    print("Pozdravljen v programu kjer lahko spremljaš vrednosti svojih kriptovalut!")
+    print("Pozdravljen v programu kjer lahko spremljaš trenutne vrednosti svojih kriptovalut!")
+    print("----------------------------------------------------------------------------------")
 
 def pozdrav_v_slovo():
     print("Lepo se imej, nasviednje!")
+
+def stevilo_razlicnih_portfeljev():
+    if testni_model.stevilo_razlicnih_portfeljev() != 0:
+        print(f"\nTreutno imate toliko portfeljev: {testni_model.stevilo_razlicnih_portfeljev()}")
+        print(f"Vaš trenutno aktiven portfelj je: {testni_model.aktualni_portfelj}")
+    else:    
+        print("Ustvarjenega nimate še nobenega portfelja, zato si ga prosim najprej ustvarite.\n")
+        dodaj_portfelj()
+   
+        
 
 def pokazi_portfelje():
     '''Prikaže imena portfeljev v modelu in njihove vrednosti'''
@@ -100,7 +112,7 @@ def pokazi_skupno_vrednost_portfeljev():
     print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
 
 def dodaj_portfelj():
-    print("Vnesite zahtevane podatke portfelja.")
+    print("Vpišite kako želite, da se vaš portfelj imenuje.")
     ime = input("ime> ")
     nov_portfelj = Portfelj(ime)
     testni_model.dodaj_portfelj(nov_portfelj)
@@ -133,12 +145,10 @@ def prodaj_kovanec():
 
 def pokazi_posamezne_kovance():
     '''Prikaže kovance na aktualnem portfelju'''
-    if testni_model.aktualni_portfelj:   #če obstaja
-        for kovanec in testni_model.aktualni_portfelj.kovanci:
-            print(f"-{prikaz_kovanca(kovanec)}")
-    else:
-        print("Nimate še nobenega portfelja. Prosim ustvarite ga.")
-        dodaj_portfelj()
+    print("IME -- KRATICA -- ŠT ENOT V LASTI")
+    for kovanec in testni_model.aktualni_portfelj.kovanci:
+        print(f"-{prikaz_kovanca(kovanec)}")
+
 
     
 
