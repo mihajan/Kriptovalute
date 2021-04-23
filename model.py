@@ -18,6 +18,9 @@ class Model:
     def zamenjaj_portfelj(self, portfelj):
         self.aktualni_portfelj = portfelj
 
+    def stevilo_razlicnih_portfeljev(self):
+        return len(self.portfelji)
+
     def dodaj_kovanec(self, kovanec): #poskrbi da se kovanec doda na aktivni portfelj
         self.aktualni_portfelj.dodaj_kovanec(kovanec)
 
