@@ -1,6 +1,10 @@
 from model import Model, Portfelj, Kovanec
 
-testni_model = Model()
+IME_DATOTEKE = "stanje.json"
+try: #poskusi prebrati iz jsona
+    testni_model = Model.preberi_iz_datoteke(IME_DATOTEKE) 
+except FileNotFoundError: #če v jsonu ni najde ustvari nov prazen model
+    testni_model = Model()
 
 DODAJ_PORTFELJ = 1
 POBRISI_PORTFELJ = 2
@@ -159,15 +163,6 @@ def pokazi_posamezne_kovance():
 
 def pokazi_skupno_vrednost_portfeljev():
     print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
-    
-
-
-
-
-
-
-
-
 
 
 tekstovni_vmesnik()

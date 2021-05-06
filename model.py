@@ -1,6 +1,6 @@
 #uvozim knjižnico ki mi bo pomagala pri pridobivanju podatkov trenutnih cen iz interneta
 from yahoofinancials import YahooFinancials
-
+import json
 
 class Model:
     def __init__(self):
@@ -34,6 +34,33 @@ class Model:
             skupaj += portfelj.vrednost_portfelja()
         return skupaj
 
+    def v_slovar(self):
+        return {
+            "portfelji": [portfelj.v_slovar() for portfelj in self.portfelji],
+            "aktualni_portfelj": self.portfelji.index(self.aktualni_portfelj)
+            if self.aktualni_portfelj
+            else None,
+        }
+
+    @staticmethod
+    def iz_slovarja(slovar):
+        model = Model()
+        model.portfelji = [Portfelj.iz_slovarja(sl_portfelja) for sl_portfelja in slovar["portfelji"]]
+        if slovar["aktualni_portfelj"] is not None:
+            model.aktualni_portfelj = model.portfelji[slovar["aktualni_portfelj"]]
+        return model
+
+    def shrani_v_datoteko(self, ime_datoteke):
+        with open(ime_datoteke, "w", encoding="UTF-8") as dat:
+            slovar = self.v_slovar()
+            json.dump(slovar, dat)
+
+    @staticmethod
+    def preberi_iz_datoteke(ime_datoteke):
+        with open(ime_datoteke) as dat:
+            slovar = json.load(dat)
+            return Model.iz_slovarja(slovar)
+
 class Portfelj:
     def __init__(self, ime):
         self.ime = ime
@@ -50,7 +77,20 @@ class Portfelj:
         for kovanec in self.kovanci:
             vrednost += kovanec.trenutna_vrednost_dolocenega_kovanca()
         return vrednost
+
+    def v_slovar(self):
+        return {
+            "ime": self.ime,
+            "kovanci": [kovanec.v_slovar() for kovanec in self.kovanci],
+        }
     
+    @staticmethod
+    def iz_slovarja(slovar):
+        portfelj = Portfelj(slovar["ime"])
+        portfelj.kovanci = [
+            Kovanec.iz_slovarja(sl_kovanci) for sl_kovanci in slovar["kovanci"]
+        ]
+        return portfelj
 
 
 class Kovanec:
@@ -72,9 +112,24 @@ class Kovanec:
         return YahooFinancials(f'{self.kratica}-USD').get_current_price()        
             
     def trenutna_vrednost_dolocenega_kovanca(self):
-            return float(self.kolicina) * self.trenutna_cena_enega()
+        return float(self.kolicina) * self.trenutna_cena_enega()
 
+    def v_slovar(self):
+        return {
+            "kratica": self.kratica,
+            "polno_ime": self.polno_ime,
+            "posebnost": self.posebnost,
+            "kolicina": self.kolicina,
+        }
 
+    @staticmethod
+    def iz_slovarja(slovar):
+        return Kovanec(
+            slovar["kratica"],
+            slovar["polno_ime"],
+            slovar["posebnost"],
+            slovar["kolicina"],
+        )
 
 
 
