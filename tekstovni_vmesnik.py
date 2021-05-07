@@ -104,7 +104,7 @@ def pozdrav_v_slovo():
 def stevilo_razlicnih_portfeljev():
     print("----------------------------------------------------------------------------------")
     if testni_model.stevilo_razlicnih_portfeljev() != 0:
-        print(f"\nTreutno imate toliko portfeljev: {testni_model.stevilo_razlicnih_portfeljev()}")
+        print(f"Treutno imate toliko portfeljev: {testni_model.stevilo_razlicnih_portfeljev()}")
         print(f"Vaš trenutno aktiven portfelj je: {testni_model.aktualni_portfelj.ime.capitalize()}\n")
     else:    
         print("Ustvarjenega nimate še nobenega portfelja, zato si ga prosim najprej ustvarite.\n")
@@ -157,9 +157,12 @@ def dodaj_kovanec():
     testni_model.dodaj_kovanec(nov_kovanec)
 
 def prodaj_kovanec():
-    print("Izberite kovanec, ki ga želite odstraniti:")
-    kovanec = izberi_kovanec(testni_model)
-    testni_model.prodaj_kovanec(kovanec)
+    if testni_model.aktualni_portfelj.stevilo_razlicnih_kovancev() == 0:
+        print("Na aktivnem portfelju nimate nobenega kovanca, zato ne morete nobenega odstraniti.")
+    else:
+        print("Izberite kovanec, ki ga želite odstraniti:")
+        kovanec = izberi_kovanec(testni_model)
+        testni_model.prodaj_kovanec(kovanec)
 
 def pokazi_posamezne_kovance():
     '''Prikaže kovance na aktualnem portfelju'''
