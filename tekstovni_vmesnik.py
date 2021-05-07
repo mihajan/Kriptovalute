@@ -87,6 +87,7 @@ def tekstovni_vmesnik():
         elif izbran_ukaz == SKUPNA_VREDNOST_PORTFELJEV:
             pokazi_skupno_vrednost_portfeljev()
         elif izbran_ukaz == IZHOD:
+            testni_model.shrani_v_datoteko(IME_DATOTEKE)
             pozdrav_v_slovo()
             break
         
@@ -101,6 +102,7 @@ def pozdrav_v_slovo():
     print("Lepo se imej, nasvidenje!")
 
 def stevilo_razlicnih_portfeljev():
+    print("----------------------------------------------------------------------------------")
     if testni_model.stevilo_razlicnih_portfeljev() != 0:
         print(f"\nTreutno imate toliko portfeljev: {testni_model.stevilo_razlicnih_portfeljev()}")
         print(f"Vaš trenutno aktiven portfelj je: {testni_model.aktualni_portfelj.ime.capitalize()}\n")
@@ -133,7 +135,11 @@ def dodaj_portfelj():
 def pobrisi_portfelj():
     print("Izberi številko pred portfeljem, ki ga želiš izbrisati:")
     portfelj = izberi_aktivni_portfelj(testni_model)
-    testni_model.pobrisi_portfelj(portfelj)
+    if portfelj == testni_model.aktualni_portfelj:
+        print("Ne moreš izbrisati aktivnega portfelja!")
+    else:
+        testni_model.pobrisi_portfelj(portfelj)
+
 
 def zamenjaj_portfelj():
     print("Izberi željeni aktivni portfelj.")
