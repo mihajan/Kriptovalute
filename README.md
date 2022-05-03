@@ -7,7 +7,7 @@ izračunati vrednosti količin kovancev kot tudi vrednost celotnega portfelja.
 
 ### Navodila za uporabo
 Program se lahko zažene na dva načina, in sicer iz:
-1. **Tekstovnega vmesnika **
+1. **Tekstovnega vmesnika**
 Uporabnika v urejevalniku besedila požene datoteko tekstovni_vmesnik.py in v terminalu se datoteka požene in poda nadaljna navodila
 za upravljanje s programom
 
