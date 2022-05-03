@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+#dodal sam
+stanje.json
+setting.json
+.vscode
+__pycache__
