@@ -110,10 +110,10 @@ class Kovanec:
 
 
     def trenutna_cena_enega(self):      
-        return YahooFinancials(f'{self.kratica}-USD').get_current_price()        
+        return round(YahooFinancials(f'{self.kratica}-USD').get_current_price(), 2)        
             
     def trenutna_vrednost_dolocenega_kovanca(self):
-        return float(self.kolicina) * self.trenutna_cena_enega()
+        return round(float(self.kolicina) * self.trenutna_cena_enega(), 2)
 
     def v_slovar(self):
         return {
