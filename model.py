@@ -1,5 +1,5 @@
-#uvozim knjižnico ki mi bo pomagala pri pridobivanju podatkov trenutnih cen iz interneta
-from yahoofinancials import YahooFinancials
+#knjižnica yahoofinancials služi za pridobivanje aktualnih cen
+from yahoofinancials import YahooFinancials 
 import json
 
 class Model:
@@ -9,7 +9,7 @@ class Model:
 
     def dodaj_portfelj(self, portfelj):
         self.portfelji.append(portfelj)
-        if not self.aktualni_portfelj:
+        if not self.aktualni_portfelj: #če nimamo še nobenega portfelja to postane tisti ki ga dodajamo
             aktualni_portfelj = portfelj
 
     def pobrisi_portfelj(self, portfelj):
@@ -21,7 +21,8 @@ class Model:
     def stevilo_razlicnih_portfeljev(self):
         return len(self.portfelji)
 
-    def dodaj_kovanec(self, kovanec): #poskrbi da se kovanec doda na aktivni portfelj
+    def dodaj_kovanec(self, kovanec):
+        """poskrbi da se kovanec doda na aktivni portfelj"""
         self.aktualni_portfelj.dodaj_kovanec(kovanec)
 
     def prodaj_kovanec(self, kovanec): 

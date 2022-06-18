@@ -1,11 +1,16 @@
+#uvozimo model
 from model import Model, Portfelj, Kovanec
 
+
+#poskuimo uvoziti stanje
 IME_DATOTEKE = "stanje.json"
-try: #poskusi prebrati iz jsona
+try:
     testni_model = Model.preberi_iz_datoteke(IME_DATOTEKE) 
-except FileNotFoundError: #če v jsonu ni najde ustvari nov prazen model
+except FileNotFoundError: #če ne najde json fila ustvari nov prazen model
     testni_model = Model()
 
+
+#konstante
 DODAJ_PORTFELJ = 1
 POBRISI_PORTFELJ = 2
 ZAMENJAJ_PORTFELJ = 3
@@ -15,6 +20,8 @@ PRIKAZI_POSAMEZNE_KOVANCE = 6
 SKUPNA_VREDNOST_PORTFELJEV = 7
 IZHOD = 8
 
+
+
 def prikaz_portfelja(portfelj):
     st_kovancev = portfelj.stevilo_razlicnih_kovancev()
     return f"Na portfelju {portfelj.ime.upper()} je {st_kovancev} kovancev"
@@ -22,8 +29,6 @@ def prikaz_portfelja(portfelj):
 
 def prikaz_kovanca(kovanec):
     return f'{kovanec.polno_ime} ({kovanec.kratica})- imaš {kovanec.kolicina} enot. Posebnost kovanca: {kovanec.posebnost}'
-
-
 
 
 def izberi_moznost(moznosti):
@@ -37,6 +42,7 @@ def izberi_moznost(moznosti):
             return moznost
         else:
             print(f'Vnesti morate število med 1 in {len(moznosti)}.')    
+
 
 def preberi_stevilo():
     '''iz konzole prebere vpisnao število, v naspotnem primeru javi napako'''
@@ -57,6 +63,7 @@ def izberi_kovanec(model):
 
 
 def tekstovni_vmesnik():
+    """Glavna funkcija tekstovnega vmesnika"""
     uvodni_pozdrav()
     while True:
         stevilo_razlicnih_portfeljev()
@@ -174,7 +181,6 @@ def pokazi_skupno_vrednost_portfeljev():
     print(f'Skupna vrednost tvojih portfeljev je: {round(testni_model.vrednost_vseh_portfeljev_modela(), 2)}$')
 
 
+#-----------------------------------------------------------------------------------------
 tekstovni_vmesnik()
-#----------------------------------------------------------------------------------------
-
 
