@@ -1,12 +1,11 @@
-<html>
-<html lang="slo">
-<head>
-    <title> KRIPTOVALUTE </title>
-<meta charset="utf-8"/>
+% rebase("base.tpl")
 
-<body>
-    <h1> SLEDILEC CEN KRIPTOVALUT </h1>
-    <h2> Projektna naloga pri predmetu Uvod v programiranje </h2>
+<header>
+            <h2>Navodila za uporabo programa</h2>
+            <p>na tej strani lahko preberete podrobnejša navodila za uporabo tega programa  </p>
+</header>
+
+
 
     <p>
         <h3> Osnovno o programu </h3>
@@ -21,11 +20,6 @@
     </p>
 
     <!--Gumb s katerim vstopimo v program -->
-    <form action="/osnovni-meni/" method="post">
+    <form action="/" method="get">
         <button type="submit">Vstopi v program </button>
     </form>
-
-
-</body>
-
-</html>

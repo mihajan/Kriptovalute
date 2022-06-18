@@ -1,26 +1,26 @@
-<html>
-<html lang="slo">
-<head>
-    <title> KRIPTOVALUTE </title>
-<meta charset="utf-8"/>
+% rebase("base.tpl")
 
-<body>
-    <h1>SLEDILEC CEN KRIPTOVALUT </h1>
+<header>
+            <h2>Sledilec cen kriptovalut</h2>
+            <p> program, ki vam prikaže vaše portfelje, pripadajoče kripto kovance in njihove vrednosti </p>
+</header>
     
     <p>
-        <h3> Trenutno imaš ustvarjenih {{stevilo_portfeljev}} portfeljev </h3>
+    % if stevilo_portfeljev == 0:
+        <b> V zavihku navodila si oglejte kako ustvarite svoje portfelje! </b>
+    % else:
+        <b> Že imaš ustvarjenih toliko protfeljev: {{stevilo_portfeljev}}</b>
     </p>
     
-% if stevilo_portfeljev == 0:
-    Za začetek si morate ustvariti nov portfelj.
-% else:
-%   pass
+    <ul> Imena protfeljev so: 
+        %for portfelj in portfelji:
+            <li> <strong> {{portfelj.ime}}</strong>; število kovancev na njem: {{portfelj.stevilo_razlicnih_kovancev()}}</li>     
+                %for kovanec in portfelj.kovanci:
+                <ul>
+                    <li> {{kovanec.kratica}} </li>
+                </ul>
+        %end
+        
+    </ul>
 
-% end
 
-
-
-
-</body>
-
-</html>
