@@ -14,7 +14,10 @@
         <nav>
             <a href="/"> Domov </a>
             <a href="/navodila/"> Navodila </a>
+            <a href="/nov-portfelj/"> Ustvari nov portfelj </a>
         </nav>
+        <h2>Sledilec cen kriptovalut</h2>
+        <p> program, ki vam prikaže vaše portfelje, pripadajoče kripto kovance in njihove vrednosti </p>
     </header>
 
         {{ !base }}
