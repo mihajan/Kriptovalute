@@ -1,2 +1,0 @@
-%rebase("base.tpl")
-
