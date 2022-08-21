@@ -4,10 +4,10 @@ from model import Model, Portfelj, Kovanec
 
 # poskuimo uvoziti stanje
 IME_DATOTEKE = "stanje.json"
-# try:
-#    testni_model = Model.preberi_iz_datoteke(IME_DATOTEKE)
-# except FileNotFoundError: #če ne najde json fila ustvari nov prazen model
-testni_model = Model()
+try:
+    testni_model = Model.preberi_iz_datoteke(IME_DATOTEKE)
+except FileNotFoundError: #če ne najde json fila ustvari nov prazen model
+    testni_model = Model()
 
 
 # konstante
