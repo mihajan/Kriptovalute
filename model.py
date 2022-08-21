@@ -1,6 +1,8 @@
-#knjižnica yahoofinancials služi za pridobivanje aktualnih cen
-from yahoofinancials import YahooFinancials 
+# knjižnica yahoofinancials služi za pridobivanje aktualnih cen
+from typing import Type
+from yahoofinancials import YahooFinancials
 import json
+
 
 class Model:
     def __init__(self):
@@ -9,7 +11,9 @@ class Model:
 
     def dodaj_portfelj(self, portfelj):
         self.portfelji.append(portfelj)
-        if not self.aktualni_portfelj: #če nimamo še nobenega portfelja to postane tisti ki ga dodajamo
+        if (
+            not self.aktualni_portfelj
+        ):  # če nimamo še nobenega portfelja to postane tisti ki ga dodajamo
             aktualni_portfelj = portfelj
 
     def pobrisi_portfelj(self, portfelj):
@@ -25,7 +29,7 @@ class Model:
         """poskrbi da se kovanec doda na aktivni portfelj"""
         self.aktualni_portfelj.dodaj_kovanec(kovanec)
 
-    def prodaj_kovanec(self, kovanec): 
+    def prodaj_kovanec(self, kovanec):
         """Odstrani kovanec iz portfelja. Kot bi npr. nekaj kupil"""
         self.aktualni_portfelj.kovanci.remove(kovanec)
 
@@ -46,7 +50,9 @@ class Model:
     @staticmethod
     def iz_slovarja(slovar):
         model = Model()
-        model.portfelji = [Portfelj.iz_slovarja(sl_portfelja) for sl_portfelja in slovar["portfelji"]]
+        model.portfelji = [
+            Portfelj.iz_slovarja(sl_portfelja) for sl_portfelja in slovar["portfelji"]
+        ]
         if slovar["aktualni_portfelj"] is not None:
             model.aktualni_portfelj = model.portfelji[slovar["aktualni_portfelj"]]
         return model
@@ -62,10 +68,13 @@ class Model:
             slovar = json.load(dat)
             return Model.iz_slovarja(slovar)
 
+
 class Portfelj:
     def __init__(self, ime):
         self.ime = ime
-        self.kovanci = []  #v ta seznam se bodo appendali kovanci ki jih bomo želeli dodati na portfelj
+        self.kovanci = (
+            []
+        )  # v ta seznam se bodo appendali kovanci ki jih bomo želeli dodati na portfelj
 
     def dodaj_kovanec(self, kovanec):
         self.kovanci.append(kovanec)
@@ -84,7 +93,7 @@ class Portfelj:
             "ime": self.ime,
             "kovanci": [kovanec.v_slovar() for kovanec in self.kovanci],
         }
-    
+
     @staticmethod
     def iz_slovarja(slovar):
         portfelj = Portfelj(slovar["ime"])
@@ -100,18 +109,16 @@ class Kovanec:
         self.polno_ime = polno_ime
         self.posebnost = posebnost
         self.kolicina = kolicina
-        
 
     def __str__(self):
-        return f'{self.polno_ime} je vrsta kriptovalute z uradno kratico {self.kratica}, katere imaš v lasti {self.kolicina} enot.'
+        return f"{self.polno_ime} je vrsta kriptovalute z uradno kratico {self.kratica}, katere imaš v lasti {self.kolicina} enot."
 
     def __repr__(self):
-        return f'Kovanec({self.kratica}, {self.polno_ime}, {self.posebnost}, {self.kolicina})'
+        return f"Kovanec({self.kratica}, {self.polno_ime}, {self.posebnost}, {self.kolicina})"
 
+    def trenutna_cena_enega(self):
+        return round(YahooFinancials(f"{self.kratica}-USD").get_current_price(), 2)
 
-    def trenutna_cena_enega(self):      
-        return round(YahooFinancials(f'{self.kratica}-USD').get_current_price(), 2)        
-            
     def trenutna_vrednost_dolocenega_kovanca(self):
         return round(float(self.kolicina) * self.trenutna_cena_enega(), 2)
 
@@ -131,7 +138,3 @@ class Kovanec:
             slovar["posebnost"],
             slovar["kolicina"],
         )
-
-
-
-

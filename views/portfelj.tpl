@@ -1,6 +1,6 @@
 %rebase("base.tpl")
 
-<h3> {{portfelj.ime}} </h3>
+<h3> {{portfelj.ime}}  {{portfelj.vrednost_portfelja()}}</h3>
 <table>
     <thead>
         <tr>
@@ -17,7 +17,7 @@
             <td> {{kovanec.kratica}} </td>
             <td> {{kovanec.polno_ime}} </td>
             <td> {{kovanec.kolicina}} </td>
-            <td> {{kovanec.trenutna_cena_enega}}</td>
+            <td> {{kovanec.trenutna_cena_enega()}}</td>
         </tr>
         %end
     </tbody>
